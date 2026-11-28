@@ -7,7 +7,7 @@ import codecs
 import unittest
 import pytest
 
-from justext.core import JustextError, decode_html, html_to_dom
+from justext.core import JustextDecodeError, JustextError, decode_html, html_to_dom
 
 
 class TestHtmlEncoding(unittest.TestCase):
@@ -21,11 +21,10 @@ class TestHtmlEncoding(unittest.TestCase):
         with pytest.raises(UnicodeDecodeError) as expected:
             html.decode(codec)
 
-        with pytest.raises(JustextError) as raised:
+        with pytest.raises(JustextDecodeError) as raised:
             decode_html(html, errors='strict', **kwargs)
 
         error = raised.value
-        assert isinstance(error, UnicodeDecodeError)
         for attr in ("encoding", "object", "start", "end", "reason"):
             assert getattr(error, attr) == getattr(expected.value, attr)
         assert str(error) == str(expected.value)

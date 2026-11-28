@@ -83,7 +83,7 @@ def _decode(data, encoding, errors):
     try:
         return data.decode(encoding, errors)
     except UnicodeDecodeError as e:
-        raise JustextDecodeError(e.encoding, e.object, e.start, e.end, e.reason)
+        raise JustextDecodeError(*e.args)
 
 
 def decode_html(html, default_encoding=DEFAULT_ENCODING, encoding=None, errors=DEFAULT_ENC_ERRORS):

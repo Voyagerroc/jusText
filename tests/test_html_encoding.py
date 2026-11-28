@@ -24,10 +24,7 @@ class TestHtmlEncoding(unittest.TestCase):
         with pytest.raises(JustextDecodeError) as raised:
             decode_html(html, errors='strict', **kwargs)
 
-        error = raised.value
-        for attr in ("encoding", "object", "start", "end", "reason"):
-            assert getattr(error, attr) == getattr(expected.value, attr)
-        assert str(error) == str(expected.value)
+        assert raised.value.args == expected.value.args
 
     def test_unicode(self):
         html = "ľščťžýáíéäňúô Ł€"

@@ -195,6 +195,11 @@ class TestHtmlEncoding(unittest.TestCase):
 
         self.assert_strings_equal(html, decoded_html)
 
+    def test_utf32_bom_in_strict_mode(self):
+        # a code point above U+10FFFF
+        html = codecs.BOM_UTF32_LE + b"\x00\x00\x11\x00"
+        self.assert_strict_decode_error(html, "utf-32")
+
     def test_utf32_bom_be(self):
         html = '<p>ľščťžýáíéäňúô Ł€</p>'
         decoded_html = decode_html(codecs.BOM_UTF32_BE + html.encode("utf-32-be"))
